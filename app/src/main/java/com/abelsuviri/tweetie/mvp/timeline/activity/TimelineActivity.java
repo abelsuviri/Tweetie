@@ -29,6 +29,12 @@ import butterknife.ButterKnife;
 import twitter4j.Status;
 import twitter4j.auth.AccessToken;
 
+/**
+ * The TimelineActivity shows the user or another user timeline.
+ *
+ * @author Abel Suviri
+ */
+
 public class TimelineActivity extends BaseActivity implements TimelineView, HolderInterface {
     @BindView(R.id.refreshLayout)
     SwipeRefreshLayout mRefreshLayout;
@@ -58,6 +64,10 @@ public class TimelineActivity extends BaseActivity implements TimelineView, Hold
         loadTweets(false);
     }
 
+    /**
+     * If another user timeline is displayed the back event will load the user timeline. If user
+     * timeline is displayed the back event will show a dialog to just close the app or to logout.
+     */
     @Override
     public void onBackPressed() {
         if (isSomeoneTimeline) {
@@ -68,27 +78,50 @@ public class TimelineActivity extends BaseActivity implements TimelineView, Hold
         }
     }
 
+    /**
+     * Shows the progress dialog.
+     */
     @Override
     public void showProgress() {
         showProgressDialog();
     }
 
+    /**
+     * Hides the progress dialog.
+     */
     @Override
     public void hideProgress() {
         hideProgressDialog();
         mRefreshLayout.setRefreshing(false);
     }
 
+    /**
+     * This method sets the adapter to the RecyclerView. That means we are printing the tweets
+     * timeline.
+     *
+     * @param statuses This is a list of all the tweets.
+     */
     @Override
     public void showTweetList(List<Status> statuses) {
         mTimelineList.setAdapter(new TweetAdapter(statuses, this, this));
     }
 
+    /**
+     * This method sets the adapter to the RecyclerView when device is disconnected from the network
+     * and print all the favourites tweets stored at the database.
+     *
+     * @param tweets This is a list of all the favourite tweets stored at the database.
+     */
     @Override
     public void showFavTweets(List<Tweet> tweets) {
         mTimelineList.setAdapter(new TweetAdapter(tweets, this, this, true));
     }
 
+    /**
+     * When an error occurs we show an error message in a SnackBar.
+     *
+     * @param error This is the error message.
+     */
     @Override
     public void onError(String error) {
         if (mAccessToken != null) {
@@ -103,6 +136,12 @@ public class TimelineActivity extends BaseActivity implements TimelineView, Hold
         }
     }
 
+    /**
+     * This is the callback from when a profile was clicked and we are going to open the timeline of
+     * this profile.
+     *
+     * @param userId This is the user id of the profile clicked.
+     */
     @Override
     public void onProfileClick(long userId) {
         mSomeoneId = userId;
@@ -110,6 +149,12 @@ public class TimelineActivity extends BaseActivity implements TimelineView, Hold
         mTimelinePresenter.getAnotherTimeline(userId, false);
     }
 
+    /**
+     * This is the callback from when a tweet was clicked and we are going to open this tweet in a
+     * screen only for it.
+     *
+     * @param status This is all the tweet content.
+     */
     @Override
     public void onTweetClick(Status status) {
         Intent intent = new Intent(this, TweetActivity.class);
@@ -118,6 +163,12 @@ public class TimelineActivity extends BaseActivity implements TimelineView, Hold
         overridePendingTransition(R.anim.from_bottom, R.anim.hold);
     }
 
+    /**
+     * This is the callback from when we click on the fav icon.
+     *
+     * @param setFav This boolean returns if we will set the tweet as favourite or not.
+     * @param tweetId This is the tweet id.
+     */
     @Override
     public void onFavClick(boolean setFav, long tweetId) {
         if (isSomeoneTimeline) {
@@ -127,6 +178,10 @@ public class TimelineActivity extends BaseActivity implements TimelineView, Hold
         }
     }
 
+    /**
+     * When a user will logout we clear the preferences to do not have the users tokens next time we
+     * open the app and avoid redirect to the timeline.
+     */
     @Override
     public void logoutUser() {
         mSharedPreferences.edit().clear().apply();
@@ -135,11 +190,17 @@ public class TimelineActivity extends BaseActivity implements TimelineView, Hold
         finish();
     }
 
+    /**
+     * It just close the Activity.
+     */
     @Override
     public void closeApp() {
         finish();
     }
 
+    /**
+     * Here we are setting the layout manager and the dividers for the RecyclerView.
+     */
     private void setRecyclerView() {
         mTimelineList.setLayoutManager(new LinearLayoutManager(this,
             LinearLayoutManager.VERTICAL, false));
@@ -148,16 +209,33 @@ public class TimelineActivity extends BaseActivity implements TimelineView, Hold
         mTimelineList.addItemDecoration(dividerItemDecoration);
     }
 
+    /**
+     * When we have a favourite tweet we save it into our database.
+     *
+     * @param status This is all the tweet information.
+     */
     @Override
     public void onSaveFav(Status status) {
         mTimelinePresenter.saveFavs(status, this);
     }
 
+    /**
+     * When we have a tweet that was favourite but now we have unchecked it the we remove it from
+     * the database.
+     *
+     * @param status This is all the tweet information.
+     */
     @Override
     public void onDeleteFav(Status status) {
         mTimelinePresenter.deleteFav(status);
     }
 
+    /**
+     * This method makes the call to get all the tweets of the timeline.
+     *
+     * @param refresh If we are refreshing the list it will shows only the SwipeRefreshLayout
+     *                progress instead the progress dialog.
+     */
     private void loadTweets(boolean refresh) {
         if (mAccessToken == null) {
             if (getIntent().hasExtra(Constants.ACCESS_TOKEN)) {

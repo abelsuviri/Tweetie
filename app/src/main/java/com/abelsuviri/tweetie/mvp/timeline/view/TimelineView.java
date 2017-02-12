@@ -8,6 +8,8 @@ import java.util.List;
 import twitter4j.Status;
 
 /**
+ * This is the interface to communicate TimelinePresenter and TimelineActivity.
+ *
  * @author Abel Suviri
  */
 

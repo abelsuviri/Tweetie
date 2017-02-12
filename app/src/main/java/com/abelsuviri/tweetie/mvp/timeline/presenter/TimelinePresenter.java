@@ -30,6 +30,8 @@ import twitter4j.conf.Configuration;
 import twitter4j.conf.ConfigurationBuilder;
 
 /**
+ * This is the class with all the login for TimelineActivity.
+ *
  * @author Abel Suviri
  */
 
@@ -39,10 +41,21 @@ public class TimelinePresenter {
     private Twitter mTwitter;
     private CompositeSubscription mCompositeSubscription;
 
+    /**
+     * TimelinePresenter constructor.
+     *
+     * @param timelineView Instance of the TimelineView interface.
+     */
     public TimelinePresenter(TimelineView timelineView) {
         this.mTimelineView = timelineView;
     }
 
+    /**
+     * This method does the request to get the tweets to shown at the timeline.
+     *
+     * @param token User token.
+     * @param refresh If false it will show the progress dialog.
+     */
     public void getTimeline(AccessToken token, boolean refresh) {
         if (!refresh) {
             mTimelineView.showProgress();
@@ -80,6 +93,12 @@ public class TimelinePresenter {
         );
     }
 
+    /**
+     * This method does the request to get the tweets to show on the timeline of a selected user.
+     *
+     * @param id This is the user id.
+     * @param refresh If false it will show the progress dialog.
+     */
     public void getAnotherTimeline(long id, boolean refresh) {
         if (!refresh) {
             mTimelineView.showProgress();
@@ -106,6 +125,14 @@ public class TimelinePresenter {
         );
     }
 
+    /**
+     * This method sends to the server that a tweet was marked/unmarked as favourite.
+     *
+     * @param setFav If we checked or unchecked the tweet as favourite.
+     * @param tweetId This is the tweet id.
+     * @param token This is the access token needed to refresh the timeline.
+     * @param userId This is the current timeline user id.
+     */
     public void markAsFavourite(boolean setFav, long tweetId, AccessToken token, long userId) {
         Observable.create((Observable.OnSubscribe<String>) subscriber -> {
             try {
@@ -129,6 +156,11 @@ public class TimelinePresenter {
         .subscribe();
     }
 
+    /**
+     * This method shows an alert dialog to ask the user if want to close the app or logout.
+     *
+     * @param context Conext needed to show the dialog.
+     */
     public void closeDialog(Context context) {
         new AlertDialog.Builder(context)
             .setMessage(context.getString(R.string.closeDialogText))
@@ -140,6 +172,12 @@ public class TimelinePresenter {
             })).show();
     }
 
+    /**
+     * This method saves a favourite tweet into the database.
+     *
+     * @param status This is all the tweet information.
+     * @param context Context needed to format the user link.
+     */
     public void saveFavs(Status status, Context context) {
         Tweet tweet = new Tweet();
         tweet.setId(status.getId());
@@ -163,6 +201,11 @@ public class TimelinePresenter {
         realm.close();
     }
 
+    /**
+     * This method retrieves the favourite tweets from the database.
+     *
+     * @param context Context needed to get the error message string.
+     */
     public void loadFavs(Context context) {
         Realm realm = Realm.getDefaultInstance();
         RealmQuery<Tweet> query = realm.where(Tweet.class);
@@ -178,6 +221,11 @@ public class TimelinePresenter {
         }
     }
 
+    /**
+     * This method deletes a tweet from the database when it is not favourite.
+     *
+     * @param status This is the tweet information.
+     */
     public void deleteFav(Status status) {
         Realm realm = Realm.getDefaultInstance();
 

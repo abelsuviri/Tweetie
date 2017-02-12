@@ -1,6 +1,8 @@
 package com.abelsuviri.tweetie.utils;
 
 /**
+ * In that class we store all the constants.
+ *
  * @author Abel Suviri
  */
 

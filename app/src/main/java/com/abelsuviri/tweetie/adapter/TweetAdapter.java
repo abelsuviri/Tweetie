@@ -16,6 +16,8 @@ import java.util.List;
 import twitter4j.Status;
 
 /**
+ * This is the RecyclerView adapter to show Twitter timeline.
+ *
  * @author Abel Suviri
  */
 
@@ -26,12 +28,26 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetHolder> {
     private HolderInterface mHolderInterface;
     private boolean isCustom = false;
 
+    /**
+     * This is the adapter constructor when device is connected.
+     * @param statuses List of tweets (twitter4j object).
+     * @param context Activity context.
+     * @param holderInterface Reference to the ViewHolder interface.
+     */
     public TweetAdapter(List<Status> statuses, Context context, HolderInterface holderInterface) {
         this.mStatuses = statuses;
         this.mContext = context;
         this.mHolderInterface = holderInterface;
     }
 
+    /**
+     * This is the adapter constructor when device is disconnected
+     * @param tweets List of tweets (Realm object).
+     * @param context Activity context.
+     * @param holderInterface Reference to the ViewHolder interface.
+     * @param custom Boolean added to allow have two constructors and know we are loading the tweets
+     *               stored at the database.
+     */
     public TweetAdapter(List<Tweet> tweets, Context context, HolderInterface holderInterface,
                         boolean custom) {
         this.mTweets = tweets;

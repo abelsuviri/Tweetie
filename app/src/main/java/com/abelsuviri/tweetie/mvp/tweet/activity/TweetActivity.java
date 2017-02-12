@@ -17,6 +17,11 @@ import butterknife.ButterKnife;
 import twitter4j.MediaEntity;
 import twitter4j.Status;
 
+/**
+ * The TweetActivity shows a single tweet.
+ *
+ * @author Abel Suviri
+ */
 public class TweetActivity extends AppCompatActivity {
     @BindView(R.id.profilePicture)
     ImageView mProfilePicture;
@@ -50,12 +55,18 @@ public class TweetActivity extends AppCompatActivity {
         fillLayout();
     }
 
+    /**
+     * This method is override to apply screen transition.
+     */
     @Override
     public void onBackPressed() {
         super.onBackPressed();
         overridePendingTransition(R.anim.hold, R.anim.to_bottom);
     }
 
+    /**
+     * This method fills the layout views and sets the ActionBar title to the user name.
+     */
     private void fillLayout() {
         mProfileName.setText(mStatus.getUser().getName());
         mProfileLink.setText(String.format(Locale.getDefault(), getString(R.string.user),

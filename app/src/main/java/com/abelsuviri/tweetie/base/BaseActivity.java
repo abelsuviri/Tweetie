@@ -12,6 +12,8 @@ import com.abelsuviri.tweetie.utils.Constants;
 import io.realm.Realm;
 
 /**
+ * Base activity where we have all common methods used at different activities.
+ *
  * @author Abel Suviri
  */
 

@@ -2,7 +2,6 @@ package com.abelsuviri.tweetie.mvp.login.activity;
 
 import android.annotation.TargetApi;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -29,6 +28,12 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import twitter4j.auth.AccessToken;
 
+/**
+ * The MainActivity contains the login into twitter.
+ *
+ * @author Abel Suviri
+ */
+
 public class MainActivity extends BaseActivity implements LoginView {
     @BindView(R.id.flipper)
     ViewFlipper mViewFlipper;
@@ -49,6 +54,10 @@ public class MainActivity extends BaseActivity implements LoginView {
         mLoginPresenter.checkRememberedUser();
     }
 
+    /**
+     * If authentication page is shown, back event will close the authentication page and you the
+     * initial login screen.
+     */
     @Override
     public void onBackPressed() {
         if (isWebVisible) {
@@ -59,21 +68,38 @@ public class MainActivity extends BaseActivity implements LoginView {
         }
     }
 
+    /**
+     * If user did login we open the timeline.
+     * @param token User token needed to use Twitter API.
+     * @param secretToken User secret token needed to use Twitter API.
+     */
     @Override
     public void onRememberedUser(String token, String secretToken) {
         navigateToTimeline(new AccessToken(token, secretToken));
     }
 
+    /**
+     * Open the authentication screen on a WebView.
+     * @param twitterUrl This is the url of the authentication page.
+     */
     @Override
     public void onLaunchAuthentication(String twitterUrl) {
         showAuthentication(twitterUrl);
     }
 
+    /**
+     * Callback to open the timeline when login was success.
+     * @param token Access token needed to retrieve the tweets.
+     */
     @Override
     public void onLoginSuccess(AccessToken token) {
         navigateToTimeline(token);
     }
 
+    /**
+     * When there is an error we show it in a SnackBar.
+     * @param error
+     */
     @Override
     public void onError(String error) {
         Snackbar.make(mViewFlipper, String.format(Locale.getDefault(),
@@ -83,11 +109,17 @@ public class MainActivity extends BaseActivity implements LoginView {
             }).show();
     }
 
+    /**
+     * Shows thw progress dialog.
+     */
     @Override
     public void showProgress() {
         showProgressDialog();
     }
 
+    /**
+     * Hides the progress dialog.
+     */
     @Override
     public void hideProgress() {
         hideProgressDialog();
@@ -98,6 +130,11 @@ public class MainActivity extends BaseActivity implements LoginView {
         mLoginPresenter.getAuthentication();
     }
 
+    /**
+     * This method opens a WebView with a website to introduce our Twitter credentials to login into
+     * this app.
+     * @param twitterUrl This is the url to open the authentication page.
+     */
     private void showAuthentication(String twitterUrl) {
         mViewFlipper.setInAnimation(AnimationUtils.loadAnimation(this, R.anim.fade_in));
         mViewFlipper.setOutAnimation(AnimationUtils.loadAnimation(this, R.anim.fade_out));
@@ -135,6 +172,10 @@ public class MainActivity extends BaseActivity implements LoginView {
         });
     }
 
+    /**
+     * This method do the navigation to TimelineActivity.
+     * @param token
+     */
     private void navigateToTimeline(AccessToken token) {
         Intent intent = new Intent(this, TimelineActivity.class);
         if (NetworkUtils.checkConnected(this)) {

@@ -4,6 +4,8 @@ import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
 /**
+ * This class is the tweet table to store tweet information into the database.
+ *
  * @author Abel Suviri
  */
 

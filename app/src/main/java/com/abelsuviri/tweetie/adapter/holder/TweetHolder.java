@@ -20,6 +20,8 @@ import butterknife.OnClick;
 import twitter4j.Status;
 
 /**
+ * This class is the ViewHolder adapter for the timeline list.
+ *
  * @author Abel Suviri
  */
 
@@ -54,6 +56,10 @@ public class TweetHolder extends RecyclerView.ViewHolder {
         ButterKnife.bind(this, itemView);
     }
 
+    /**
+     * This is the binding method when device has connection.
+     * @param status Twitter4j object with all tweet data.
+     */
     public void bindTweets(Status status) {
         mStatus = status;
         mProfileName.setText(status.getUser().getName());
@@ -74,6 +80,10 @@ public class TweetHolder extends RecyclerView.ViewHolder {
         }
     }
 
+    /**
+     * This is the binding method when device is disconnected.
+     * @param tweet Realm object from table with all tweet data.
+     */
     public void bindTweets(Tweet tweet) {
         mProfileName.setText(tweet.getUserName());
         mProfileLink.setText(tweet.getUserLink());

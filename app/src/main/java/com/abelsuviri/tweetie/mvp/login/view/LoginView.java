@@ -5,6 +5,8 @@ import com.abelsuviri.tweetie.base.BaseView;
 import twitter4j.auth.AccessToken;
 
 /**
+ * This is the interface to communicate LoginPresenter and MainActivity
+ *
  * @author Abel Suviri
  */
 
