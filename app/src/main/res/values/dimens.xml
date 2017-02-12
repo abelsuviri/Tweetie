@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="activityMargin">16dp</dimen>
+    <dimen name="listMargin">8dp</dimen>
+    <dimen name="signInButtonWidth">140dp</dimen>
+    <dimen name="signInButtonHeight">70dp</dimen>
+    <dimen name="smallTextSize">12sp</dimen>
+    <dimen name="bodyTextSize">14sp</dimen>
+    <dimen name="subtitleTextSize">16sp</dimen>
+    <dimen name="titleTextSize">24sp</dimen>
+    <dimen name="pictureSize">48dp</dimen>
+    <dimen name="favIconSize">24dp</dimen>
+</resources>

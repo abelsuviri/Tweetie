@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Tweetie</string>
+    <string name="signIn">Sign In</string>
+    <string name="loading">Loading&#8230;</string>
+    <string name="requestError">Error on request: %s</string>
+    <string name="retry">Retry</string>
+    <string name="user">\@%s</string>
+    <string name="closeDialogText">Would you like to just close the app or logout?</string>
+    <string name="close">Close</string>
+    <string name="logout">Logout</string>
+    <string name="offline">You are not connected to a network.</string>
+</resources>
